@@ -12,9 +12,14 @@ import ru.romanbrazhnikov.simplenotes.entities.MyObjectBox;
  */
 @Module
 public class ObjectBoxModule {
+    private BoxStore mBoxStore;
+
+    public ObjectBoxModule(Application myApp) {
+        mBoxStore = MyObjectBox.builder().androidContext(myApp).build();
+    }
 
     @Provides
-    BoxStore providesBoxStore(Application myApp){
-        return MyObjectBox.builder().androidContext(myApp).build();
+    BoxStore providesBoxStore(){
+        return mBoxStore;
     }
 }

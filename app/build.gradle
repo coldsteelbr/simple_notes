@@ -1,6 +1,12 @@
 apply plugin: 'com.android.application'
 apply plugin: 'io.objectbox'
 
+repositories {
+    jcenter()
+    maven{
+        url "http://objectbox.net/beta-repo/"
+    }
+}
 
 android {
     compileSdkVersion 26
@@ -38,5 +44,6 @@ dependencies {
 
     // ObjectBox
 
-
+    compile "io.objectbox:objectbox-android:1.0.1"
+    annotationProcessor "io.objectbox:objectbox-processor:1.0.1"
 }

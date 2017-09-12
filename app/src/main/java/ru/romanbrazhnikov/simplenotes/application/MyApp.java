@@ -20,7 +20,7 @@ public class MyApp extends Application {
 
         mSimpleNotesComponent = DaggerSimpleNotesComponent.builder()
                 .appModule(new AppModule(this))
-                .objectBoxModule(new ObjectBoxModule())
+                .objectBoxModule(new ObjectBoxModule(this))
                 .build();
     }
 
