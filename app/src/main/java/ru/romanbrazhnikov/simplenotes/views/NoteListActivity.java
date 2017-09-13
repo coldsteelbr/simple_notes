@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -60,13 +61,16 @@ public class NoteListActivity extends AppCompatActivity
         rvNoteList.setAdapter(mNoteListAdapter);
     }
 
-    private class NoteHolder extends RecyclerView.ViewHolder{
+    private class NoteHolder extends RecyclerView.ViewHolder
+                            implements View.OnClickListener
+    {
 
         private TextView tvTitle;
         private TextView tvContent;
 
         public NoteHolder(View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
 
             tvTitle = itemView.findViewById(R.id.tv_title);
             tvContent = itemView.findViewById(R.id.tv_content);
@@ -75,6 +79,12 @@ public class NoteListActivity extends AppCompatActivity
         public void bindNote(SimpleNote note){
             tvTitle.setText(note.getTitle());
             tvContent.setText(note.getContent());
+        }
+
+        @Override
+        public void onClick(View view) {
+            Toast.makeText(NoteListActivity.this, tvTitle.getText(), Toast.LENGTH_SHORT)
+                    .show();
         }
     }
 
