@@ -62,12 +62,19 @@ public class NoteListActivity extends AppCompatActivity
 
     private class NoteHolder extends RecyclerView.ViewHolder{
 
-        public TextView mTextView;
+        private TextView tvTitle;
+        private TextView tvContent;
 
         public NoteHolder(View itemView) {
             super(itemView);
 
-            mTextView = (TextView)itemView;
+            tvTitle = itemView.findViewById(R.id.tv_title);
+            tvContent = itemView.findViewById(R.id.tv_content);
+        }
+
+        public void bindNote(SimpleNote note){
+            tvTitle.setText(note.getTitle());
+            tvContent.setText(note.getContent());
         }
     }
 
@@ -82,19 +89,21 @@ public class NoteListActivity extends AppCompatActivity
         @Override
         public NoteHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater li = LayoutInflater.from(NoteListActivity.this);
-            View view = li.inflate(android.R.layout.simple_list_item_1, parent, false);
+            View view = li.inflate(R.layout.item_simple_note, parent, false);
             return new NoteHolder(view);
         }
 
         @Override
         public void onBindViewHolder(NoteHolder holder, int position) {
             SimpleNote note = mNoteList.get(position);
-            holder.mTextView.setText(note.getTitle());
+            holder.bindNote(note);
         }
 
         @Override
         public int getItemCount() {
             return mNoteList.size();
         }
+
+
     }
 }
