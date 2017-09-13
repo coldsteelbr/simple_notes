@@ -6,6 +6,7 @@ buildscript {
         jcenter()
         // ObjectBox
         maven { url "http://objectbox.net/beta-repo/" }
+        google()
     }
 
     dependencies {

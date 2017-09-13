@@ -3,9 +3,10 @@ apply plugin: 'io.objectbox'
 
 repositories {
     jcenter()
-    maven{
+    maven {
         url "http://objectbox.net/beta-repo/"
     }
+    google()
 }
 
 android {
@@ -28,22 +29,20 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:design:26.0.2'
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
-
-
     // Dagger 2
-    compile "com.google.dagger:dagger:2.11"
+    compile 'com.google.dagger:dagger:2.11'
     annotationProcessor "com.google.dagger:dagger-compiler:2.11"
     provided 'javax.annotation:jsr250-api:1.0'
-
     // ObjectBox
-
-    compile "io.objectbox:objectbox-android:1.0.1"
+    compile 'io.objectbox:objectbox-android:1.0.1'
     annotationProcessor "io.objectbox:objectbox-processor:1.0.1"
+    implementation 'com.android.support:recyclerview-v7:26.0.2'
 }

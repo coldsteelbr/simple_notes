@@ -1,4 +1,4 @@
-package ru.romanbrazhnikov.simplenotes;
+package ru.romanbrazhnikov.simplenotes.views;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,10 +12,11 @@ import javax.inject.Inject;
 
 import io.objectbox.Box;
 import io.objectbox.BoxStore;
+import ru.romanbrazhnikov.simplenotes.R;
 import ru.romanbrazhnikov.simplenotes.application.MyApp;
 import ru.romanbrazhnikov.simplenotes.entities.SimpleNote;
 
-public class MainActivity extends AppCompatActivity {
+public class NoteEditorActivity extends AppCompatActivity {
 
     @Inject
     BoxStore mBoxStore;
@@ -26,21 +27,24 @@ public class MainActivity extends AppCompatActivity {
     EditText etTitle;
     EditText etContent;
 
+    private void setWidgets() {
+        // TODO: ButterKnife or DataBinding
+        bSave = findViewById(R.id.b_save);
+        etTitle = findViewById(R.id.et_title);
+        etContent = findViewById(R.id.et_content);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.act_note_editor);
 
         // Widgets
-        // TODO: ButterKnife or DataBinding
-        bSave = (Button) findViewById(R.id.b_save);
-        etTitle = (EditText) findViewById(R.id.et_title);
-        etContent = (EditText) findViewById(R.id.et_content);
+        setWidgets();
 
-
+        // Injection and ObjectBox
         ((MyApp) getApplication()).getSimpleNotesComponent().inject(this);
         mSimpleNotesBox = mBoxStore.boxFor(SimpleNote.class);
-
 
 
         // populating the fields
@@ -50,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
             List<SimpleNote> noteList = mSimpleNotesBox.getAll();
             note = noteList.get(0);
         }
-        if(note != null){
+        if (note != null) {
             etTitle.setText(note.getTitle());
             etContent.setText(note.getContent());
         }
@@ -79,6 +83,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
 
 }

@@ -3,7 +3,8 @@ package ru.romanbrazhnikov.simplenotes.dagger;
 import javax.inject.Singleton;
 
 import dagger.Component;
-import ru.romanbrazhnikov.simplenotes.MainActivity;
+import ru.romanbrazhnikov.simplenotes.views.NoteEditorActivity;
+import ru.romanbrazhnikov.simplenotes.views.NoteListActivity;
 
 /**
  * Created by roman on 12.09.17.
@@ -12,5 +13,6 @@ import ru.romanbrazhnikov.simplenotes.MainActivity;
 @Singleton
 @Component(modules = {AppModule.class, ObjectBoxModule.class})
 public interface SimpleNotesComponent {
-    void inject(MainActivity activity);
+    void inject(NoteEditorActivity activity);
+    void inject(NoteListActivity activity);
 }
