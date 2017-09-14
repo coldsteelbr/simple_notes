@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -111,10 +112,10 @@ public class NoteListActivity extends AppCompatActivity {
     }
 
     private class NoteListAdapter extends RecyclerView.Adapter<NoteHolder> {
-        private List<SimpleNote> mNoteList;
+        private List<SimpleNote> mNoteList = new ArrayList<>();
 
         public NoteListAdapter(List<SimpleNote> noteList) {
-            mNoteList = noteList;
+            mNoteList.addAll(noteList);
         }
 
         @Override
@@ -136,9 +137,9 @@ public class NoteListActivity extends AppCompatActivity {
         }
 
 
-        public void updateData(List<SimpleNote> newlist) {
+        public void updateData(List<SimpleNote> newList) {
             mNoteList.clear();
-            mNoteList.addAll(newlist);
+            mNoteList.addAll(newList);
             this.notifyDataSetChanged();
         }
     }
