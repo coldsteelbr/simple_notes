@@ -76,6 +76,8 @@ public class NoteEditorActivity extends AppCompatActivity {
             etContent.setText(mSimpleNote.getContent());
         }
 
+        final AppCompatActivity self = this;
+
         // setting event listeners
         bSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,6 +94,7 @@ public class NoteEditorActivity extends AppCompatActivity {
                 }
                 // create or update
                 mSimpleNotesBox.put(mSimpleNote);
+                self.finish();
             }
         });
     }

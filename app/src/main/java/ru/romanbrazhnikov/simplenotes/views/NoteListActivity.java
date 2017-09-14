@@ -38,11 +38,13 @@ public class NoteListActivity extends AppCompatActivity
     // Fields
     NoteListAdapter mNoteListAdapter;
 
+    NoteListActivity mSelf;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_note_list);
-
+        mSelf = this;
 
         rvNoteList = findViewById(R.id.rv_note_list);
         rvNoteList.setLayoutManager(
@@ -73,7 +75,7 @@ public class NoteListActivity extends AppCompatActivity
     private class NoteHolder extends RecyclerView.ViewHolder
                             implements View.OnClickListener
     {
-
+        private long mId;
         private TextView tvTitle;
         private TextView tvContent;
 
@@ -86,14 +88,15 @@ public class NoteListActivity extends AppCompatActivity
         }
 
         public void bindNote(SimpleNote note){
+            mId = note.getId();
             tvTitle.setText(note.getTitle());
             tvContent.setText(note.getContent());
         }
 
         @Override
         public void onClick(View view) {
-            Toast.makeText(NoteListActivity.this, tvTitle.getText(), Toast.LENGTH_SHORT)
-                    .show();
+            // opening a given note in the editor
+            NoteEditorActivity.openActivityWithNote(mSelf, mId);
         }
     }
 
