@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -26,8 +25,7 @@ import ru.romanbrazhnikov.simplenotes.entities.SimpleNote;
  * Created by roman on 13.09.17.
  */
 
-public class NoteListActivity extends AppCompatActivity
-{
+public class NoteListActivity extends AppCompatActivity {
     @Inject
     BoxStore mBoxStore;
     Box<SimpleNote> mSimpleNotesBox;
@@ -48,7 +46,7 @@ public class NoteListActivity extends AppCompatActivity
 
         rvNoteList = findViewById(R.id.rv_note_list);
         rvNoteList.setLayoutManager(
-                new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false));
+                new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
         ((MyApp) getApplication()).getSimpleNotesComponent().inject(this);
         mSimpleNotesBox = mBoxStore.boxFor(SimpleNote.class);
@@ -62,19 +60,31 @@ public class NoteListActivity extends AppCompatActivity
             }
         });
 
+        //updateUI();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         updateUI();
     }
 
     private void updateUI() {
         // getting notes and setting adapter
         List<SimpleNote> notes = mSimpleNotesBox.getAll();
-        mNoteListAdapter = new NoteListAdapter(notes);
-        rvNoteList.setAdapter(mNoteListAdapter);
+        if (mNoteListAdapter == null) {
+            mNoteListAdapter = new NoteListAdapter(notes);
+            rvNoteList.setAdapter(mNoteListAdapter);
+        }
+        else{
+            mNoteListAdapter.updateData(notes);
+            mNoteListAdapter.notifyDataSetChanged();
+        }
+
     }
 
     private class NoteHolder extends RecyclerView.ViewHolder
-                            implements View.OnClickListener
-    {
+            implements View.OnClickListener {
         private long mId;
         private TextView tvTitle;
         private TextView tvContent;
@@ -87,7 +97,7 @@ public class NoteListActivity extends AppCompatActivity
             tvContent = itemView.findViewById(R.id.tv_content);
         }
 
-        public void bindNote(SimpleNote note){
+        public void bindNote(SimpleNote note) {
             mId = note.getId();
             tvTitle.setText(note.getTitle());
             tvContent.setText(note.getContent());
@@ -100,8 +110,7 @@ public class NoteListActivity extends AppCompatActivity
         }
     }
 
-    private class NoteListAdapter extends RecyclerView.Adapter<NoteHolder>
-    {
+    private class NoteListAdapter extends RecyclerView.Adapter<NoteHolder> {
         private List<SimpleNote> mNoteList;
 
         public NoteListAdapter(List<SimpleNote> noteList) {
@@ -127,5 +136,10 @@ public class NoteListActivity extends AppCompatActivity
         }
 
 
+        public void updateData(List<SimpleNote> newlist) {
+            mNoteList.clear();
+            mNoteList.addAll(newlist);
+            this.notifyDataSetChanged();
+        }
     }
 }
