@@ -10,10 +10,10 @@ import io.objectbox.annotation.Id;
 @Entity
 public class SimpleNote {
     @Id
-     long id;
+    long id;
 
-     String title;
-     String content;
+    String title;
+    String content;
 
     public SimpleNote() {
     }

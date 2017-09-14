@@ -1,12 +1,12 @@
 package ru.romanbrazhnikov.simplenotes.views;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -18,6 +18,11 @@ import ru.romanbrazhnikov.simplenotes.entities.SimpleNote;
 
 public class NoteEditorActivity extends AppCompatActivity {
 
+    public static final String EXTRA_NOTE_ID = "EXTRA_NOTE_ID";
+
+    // fields
+    SimpleNote mSimpleNote = null;
+
     @Inject
     BoxStore mBoxStore;
     Box<SimpleNote> mSimpleNotesBox;
@@ -26,6 +31,18 @@ public class NoteEditorActivity extends AppCompatActivity {
     Button bSave;
     EditText etTitle;
     EditText etContent;
+
+    public static void openActivity(Context context) {
+        openActivityWithNote(context, null);
+    }
+
+    public static void openActivityWithNote(Context context, Long noteId) {
+        Intent intent = new Intent(context, NoteEditorActivity.class);
+        if (noteId != null) {
+            intent.putExtra(EXTRA_NOTE_ID, noteId);
+        }
+        context.startActivity(intent);
+    }
 
     private void setWidgets() {
         // TODO: ButterKnife or DataBinding
@@ -46,40 +63,35 @@ public class NoteEditorActivity extends AppCompatActivity {
         ((MyApp) getApplication()).getSimpleNotesComponent().inject(this);
         mSimpleNotesBox = mBoxStore.boxFor(SimpleNote.class);
 
+        // SimpleNote Init
+        Intent intent = getIntent();
+        if (intent.hasExtra(EXTRA_NOTE_ID)) {
+            mSimpleNote = mSimpleNotesBox.get(intent.getLongExtra(EXTRA_NOTE_ID, 0));
+        }
+
 
         // populating the fields
-        SimpleNote note = null;
-        if (mSimpleNotesBox.count() == 1) {
-            // get it
-            List<SimpleNote> noteList = mSimpleNotesBox.getAll();
-            note = noteList.get(0);
-        }
-        if (note != null) {
-            etTitle.setText(note.getTitle());
-            etContent.setText(note.getContent());
+        if (mSimpleNote != null) {
+            etTitle.setText(mSimpleNote.getTitle());
+            etContent.setText(mSimpleNote.getContent());
         }
 
         // setting event listeners
         bSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                SimpleNote note;
-
-                if (mSimpleNotesBox.count() == 1) {
-                    // get it
-                    List<SimpleNote> noteList = mSimpleNotesBox.getAll();
-                    note = noteList.get(0);
-                    note.setTitle(etTitle.getText().toString());
-                    note.setContent(etContent.getText().toString());
+                // Saving a note if it was not empty
+                if (mSimpleNote != null) {
+                    mSimpleNote.setTitle(etTitle.getText().toString());
+                    mSimpleNote.setContent(etContent.getText().toString());
                 } else {
-                    // create new
-                    note = new SimpleNote(
+                    // creating a new note
+                    mSimpleNote = new SimpleNote(
                             etTitle.getText().toString(),
                             etContent.getText().toString());
                 }
                 // create or update
-                mSimpleNotesBox.put(note);
+                mSimpleNotesBox.put(mSimpleNote);
             }
         });
     }

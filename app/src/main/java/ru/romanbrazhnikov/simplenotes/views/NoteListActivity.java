@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,7 +34,7 @@ public class NoteListActivity extends AppCompatActivity
 
     // Widgets
     RecyclerView rvNoteList;
-
+    Button bNew;
     // Fields
     NoteListAdapter mNoteListAdapter;
 
@@ -49,10 +50,18 @@ public class NoteListActivity extends AppCompatActivity
 
         ((MyApp) getApplication()).getSimpleNotesComponent().inject(this);
         mSimpleNotesBox = mBoxStore.boxFor(SimpleNote.class);
+
+        // widgets
+        bNew = findViewById(R.id.b_new);
+        bNew.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NoteEditorActivity.openActivity(NoteListActivity.this);
+            }
+        });
+
         updateUI();
     }
-
-
 
     private void updateUI() {
         // getting notes and setting adapter
