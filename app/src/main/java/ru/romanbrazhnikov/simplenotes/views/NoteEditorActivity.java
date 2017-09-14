@@ -19,7 +19,7 @@ import ru.romanbrazhnikov.simplenotes.entities.SimpleNote;
 public class NoteEditorActivity extends AppCompatActivity {
 
     public static final String EXTRA_NOTE_ID = "EXTRA_NOTE_ID";
-
+    private AppCompatActivity mSelf;
     // fields
     SimpleNote mSimpleNote = null;
 
@@ -29,6 +29,7 @@ public class NoteEditorActivity extends AppCompatActivity {
 
     // widgets
     Button bSave;
+    Button bCancel;
     EditText etTitle;
     EditText etContent;
 
@@ -47,15 +48,45 @@ public class NoteEditorActivity extends AppCompatActivity {
     private void setWidgets() {
         // TODO: ButterKnife or DataBinding
         bSave = findViewById(R.id.b_save);
+        bCancel = findViewById(R.id.b_cancel);
         etTitle = findViewById(R.id.et_title);
         etContent = findViewById(R.id.et_content);
+
+        // setting event listeners
+        // SAVE
+        bSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Saving a note if it was not empty
+                if (mSimpleNote != null) {
+                    mSimpleNote.setTitle(etTitle.getText().toString());
+                    mSimpleNote.setContent(etContent.getText().toString());
+                } else {
+                    // creating a new note
+                    mSimpleNote = new SimpleNote(
+                            etTitle.getText().toString(),
+                            etContent.getText().toString());
+                }
+                // create or update
+                mSimpleNotesBox.put(mSimpleNote);
+                mSelf.finish();
+            }
+        });
+
+        // CANCEL
+        bCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mSelf.finish();
+            }
+        });
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_note_editor);
-
+        mSelf = this;
         // Widgets
         setWidgets();
 
@@ -76,27 +107,9 @@ public class NoteEditorActivity extends AppCompatActivity {
             etContent.setText(mSimpleNote.getContent());
         }
 
-        final AppCompatActivity self = this;
 
-        // setting event listeners
-        bSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Saving a note if it was not empty
-                if (mSimpleNote != null) {
-                    mSimpleNote.setTitle(etTitle.getText().toString());
-                    mSimpleNote.setContent(etContent.getText().toString());
-                } else {
-                    // creating a new note
-                    mSimpleNote = new SimpleNote(
-                            etTitle.getText().toString(),
-                            etContent.getText().toString());
-                }
-                // create or update
-                mSimpleNotesBox.put(mSimpleNote);
-                self.finish();
-            }
-        });
+
+
     }
 
 }
