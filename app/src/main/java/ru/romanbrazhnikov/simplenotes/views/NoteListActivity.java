@@ -1,7 +1,9 @@
 package ru.romanbrazhnikov.simplenotes.views;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,7 +88,10 @@ public class NoteListActivity extends AppCompatActivity {
     }
 
     private class NoteHolder extends RecyclerView.ViewHolder
-            implements View.OnClickListener {
+            implements
+                View.OnClickListener,
+                View.OnLongClickListener
+    {
         private long mId;
         private TextView tvTitle;
         private TextView tvContent;
@@ -93,6 +99,7 @@ public class NoteListActivity extends AppCompatActivity {
         public NoteHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
 
             tvTitle = itemView.findViewById(R.id.tv_title);
             tvContent = itemView.findViewById(R.id.tv_content);
@@ -109,6 +116,42 @@ public class NoteListActivity extends AppCompatActivity {
             // opening a given note in the editor
             NoteEditorActivity.openActivityWithNote(mSelf, mId);
         }
+
+        @Override
+        public boolean onLongClick(View view) {
+            // showing DeleteDialog
+            AlertDialog.Builder builder = new AlertDialog.Builder(mSelf);
+            builder.setMessage("Delete the note?")
+                    .setPositiveButton("Yes", dialogClickListener)
+                    .setNegativeButton("No", dialogClickListener).show();
+
+            // don't call "onClick"
+            return true;
+        }
+
+        // Delete dialog listener
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        //Yes button clicked
+                        Toast.makeText(mSelf, "Deleting.", Toast.LENGTH_SHORT).show();
+                        // DELETING the note
+                        mSimpleNotesBox.remove(mId);
+                        // Refreshing UI
+                        updateUI();
+                        // Closing the dialog
+                        dialog.dismiss();
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        // No clicked. Just closing the dialog
+                        dialog.dismiss();
+                        break;
+                }
+            }
+        };
     }
 
     private class NoteListAdapter extends RecyclerView.Adapter<NoteHolder> {
