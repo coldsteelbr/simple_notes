@@ -1,5 +1,7 @@
 package ru.romanbrazhnikov.simplenotes.entities;
 
+import java.util.Date;
+
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
 
@@ -14,6 +16,7 @@ public class SimpleNote {
 
     String title;
     String content;
+    Date date;
 
     public SimpleNote() {
     }
@@ -35,11 +38,19 @@ public class SimpleNote {
         return content;
     }
 
+    public Date getDate() {
+        return date;
+    }
+
     public void setTitle(String title) {
         this.title = title;
     }
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }

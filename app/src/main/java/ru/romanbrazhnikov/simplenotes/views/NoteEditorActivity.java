@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.Date;
+
 import javax.inject.Inject;
 
 import io.objectbox.Box;
@@ -67,6 +69,8 @@ public class NoteEditorActivity extends AppCompatActivity {
                             etTitle.getText().toString(),
                             etContent.getText().toString());
                 }
+                // refreshing date
+                mSimpleNote.setDate(new Date());
                 // create or update
                 mSimpleNotesBox.put(mSimpleNote);
                 mSelf.finish();

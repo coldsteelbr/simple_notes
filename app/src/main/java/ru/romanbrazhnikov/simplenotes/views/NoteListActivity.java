@@ -24,6 +24,7 @@ import io.objectbox.BoxStore;
 import ru.romanbrazhnikov.simplenotes.R;
 import ru.romanbrazhnikov.simplenotes.application.MyApp;
 import ru.romanbrazhnikov.simplenotes.entities.SimpleNote;
+import ru.romanbrazhnikov.simplenotes.entities.SimpleNote_;
 
 /**
  * Created by roman on 13.09.17.
@@ -75,7 +76,7 @@ public class NoteListActivity extends AppCompatActivity {
 
     private void updateUI() {
         // getting notes and setting adapter
-        List<SimpleNote> notes = mSimpleNotesBox.getAll();
+        List<SimpleNote> notes = mSimpleNotesBox.query().orderDesc(SimpleNote_.date).build().find();
         if (mNoteListAdapter == null) {
             mNoteListAdapter = new NoteListAdapter(notes);
             rvNoteList.setAdapter(mNoteListAdapter);
