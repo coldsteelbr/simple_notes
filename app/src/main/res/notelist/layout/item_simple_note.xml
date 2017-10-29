@@ -5,21 +5,33 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:background="?android:attr/selectableItemBackground">
+
     <TextView
+        style="@style/ItemTitleTextView"
         android:id="@+id/tv_title"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:textStyle="bold"
-        android:padding="2dp"
         tools:text="title"/>
+
     <TextView
+        style="@style/ItemContentTextView"
         android:id="@+id/tv_content"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:padding="2dp"
         tools:text="content"/>
+
+    <TextView
+        style="@style/ItemDateTextView"
+        android:id="@+id/tv_date"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        tools:text="12.12.2012"/>
+
+    <!-- SPLITTER -->
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#e2e2e2"/>
+        android:layout_marginTop="@dimen/md_padding_half"
+        android:layout_marginBottom="@dimen/md_padding_half"
+        android:background="@color/clLightGrey"/>
 </LinearLayout>

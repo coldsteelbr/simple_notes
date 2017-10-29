@@ -1,9 +1,11 @@
 package ru.romanbrazhnikov.simplenotes.entities;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
+import io.objectbox.annotation.Transient;
 
 /**
  * Created by roman on 12.09.17.
@@ -52,5 +54,17 @@ public class SimpleNote {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    @Transient
+    private final SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
+
+    // TODO: rid of the formatting here. Use Screen Model instead
+    public String getFormattedDate() {
+        if(date != null){
+            return mSimpleDateFormat.format(date);
+        }else {
+            return "";
+        }
     }
 }

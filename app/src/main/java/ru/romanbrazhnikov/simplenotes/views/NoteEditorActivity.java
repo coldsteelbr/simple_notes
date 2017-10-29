@@ -24,7 +24,7 @@ public class NoteEditorActivity extends AppCompatActivity {
 
     public static final String EXTRA_NOTE_ID = "EXTRA_NOTE_ID";
 
-    // fields
+    // FIELDS
     SimpleNote mSimpleNote = null;
 
     @Inject
@@ -34,10 +34,8 @@ public class NoteEditorActivity extends AppCompatActivity {
     // WIDGETS
     @BindView(R.id.b_save)
     FloatingActionButton fabSave;
-
     @BindView(R.id.et_title)
     EditText etTitle;
-
     @BindView(R.id.et_content)
     EditText etContent;
 

@@ -68,7 +68,6 @@ public class NoteListActivity extends AppCompatActivity {
             }
         });
 
-        //updateUI();
     }
 
     @Override
@@ -95,8 +94,11 @@ public class NoteListActivity extends AppCompatActivity {
             View.OnClickListener,
             View.OnLongClickListener {
         private long mId;
+
+        // TODO: ButterKnife
         private TextView tvTitle;
         private TextView tvContent;
+        private TextView tvDate;
 
         public NoteHolder(View itemView) {
             super(itemView);
@@ -105,12 +107,14 @@ public class NoteListActivity extends AppCompatActivity {
 
             tvTitle = itemView.findViewById(R.id.tv_title);
             tvContent = itemView.findViewById(R.id.tv_content);
+            tvDate = itemView.findViewById(R.id.tv_date);
         }
 
         public void bindNote(SimpleNote note) {
             mId = note.getId();
             tvTitle.setText(note.getTitle());
             tvContent.setText(note.getContent());
+            tvDate.setText(note.getFormattedDate());
         }
 
         @Override
@@ -148,7 +152,7 @@ public class NoteListActivity extends AppCompatActivity {
                         break;
 
                     case DialogInterface.BUTTON_NEGATIVE:
-                        // No clicked. Just closing the dialog
+                        // Not clicked. Just closing the dialog
                         dialog.dismiss();
                         break;
                 }
