@@ -3,15 +3,17 @@ package ru.romanbrazhnikov.simplenotes.views;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 
 import java.util.Date;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.objectbox.Box;
 import io.objectbox.BoxStore;
 import ru.romanbrazhnikov.simplenotes.R;
@@ -21,7 +23,7 @@ import ru.romanbrazhnikov.simplenotes.entities.SimpleNote;
 public class NoteEditorActivity extends AppCompatActivity {
 
     public static final String EXTRA_NOTE_ID = "EXTRA_NOTE_ID";
-    private AppCompatActivity mSelf;
+
     // fields
     SimpleNote mSimpleNote = null;
 
@@ -29,10 +31,14 @@ public class NoteEditorActivity extends AppCompatActivity {
     BoxStore mBoxStore;
     Box<SimpleNote> mSimpleNotesBox;
 
-    // widgets
-    Button bSave;
-    Button bCancel;
+    // WIDGETS
+    @BindView(R.id.b_save)
+    FloatingActionButton fabSave;
+
+    @BindView(R.id.et_title)
     EditText etTitle;
+
+    @BindView(R.id.et_content)
     EditText etContent;
 
     public static void openActivity(Context context) {
@@ -48,15 +54,10 @@ public class NoteEditorActivity extends AppCompatActivity {
     }
 
     private void setWidgets() {
-        // TODO: ButterKnife or DataBinding
-        bSave = findViewById(R.id.b_save);
-        bCancel = findViewById(R.id.b_cancel);
-        etTitle = findViewById(R.id.et_title);
-        etContent = findViewById(R.id.et_content);
 
         // setting event listeners
         // SAVE
-        bSave.setOnClickListener(new View.OnClickListener() {
+        fabSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Saving a note if it was not empty
@@ -73,24 +74,18 @@ public class NoteEditorActivity extends AppCompatActivity {
                 mSimpleNote.setDate(new Date());
                 // create or update
                 mSimpleNotesBox.put(mSimpleNote);
-                mSelf.finish();
+                finish();
             }
         });
 
-        // CANCEL
-        bCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mSelf.finish();
-            }
-        });
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_note_editor);
-        mSelf = this;
+        ButterKnife.bind(this);
+
         // Widgets
         setWidgets();
 
@@ -110,8 +105,6 @@ public class NoteEditorActivity extends AppCompatActivity {
             etTitle.setText(mSimpleNote.getTitle());
             etContent.setText(mSimpleNote.getContent());
         }
-
-
 
 
     }

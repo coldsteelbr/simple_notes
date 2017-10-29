@@ -4,21 +4,29 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="16dp"
     android:orientation="vertical">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_note_list"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        tools:listitem="@layout/item_simple_note"/>
+        android:layout_weight="1">
 
-    <Button
-        android:text="New"
-        android:id="@+id/b_new"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:layout_gravity="right"
-        />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_note_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/item_simple_note"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/b_new"
+            android:src="@drawable/ic_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            app:useCompatPadding="true"/>
+    </FrameLayout>
+
+
 </LinearLayout>

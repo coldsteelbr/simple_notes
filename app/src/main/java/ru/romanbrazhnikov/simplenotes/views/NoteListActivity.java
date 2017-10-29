@@ -3,6 +3,7 @@ package ru.romanbrazhnikov.simplenotes.views;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +19,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.objectbox.Box;
 import io.objectbox.BoxStore;
 import ru.romanbrazhnikov.simplenotes.R;
@@ -35,19 +37,21 @@ public class NoteListActivity extends AppCompatActivity {
     BoxStore mBoxStore;
     Box<SimpleNote> mSimpleNotesBox;
 
-    // Widgets
+    // WIDGETS
     RecyclerView rvNoteList;
-    Button bNew;
-    // Fields
+
+    @BindView(R.id.b_new)
+    FloatingActionButton bNew;
+
+    // FIELDS
     NoteListAdapter mNoteListAdapter;
 
-    NoteListActivity mSelf;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_note_list);
-        mSelf = this;
+        ButterKnife.bind(this);
 
         rvNoteList = findViewById(R.id.rv_note_list);
         rvNoteList.setLayoutManager(
@@ -57,7 +61,6 @@ public class NoteListActivity extends AppCompatActivity {
         mSimpleNotesBox = mBoxStore.boxFor(SimpleNote.class);
 
         // widgets
-        bNew = findViewById(R.id.b_new);
         bNew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -80,8 +83,7 @@ public class NoteListActivity extends AppCompatActivity {
         if (mNoteListAdapter == null) {
             mNoteListAdapter = new NoteListAdapter(notes);
             rvNoteList.setAdapter(mNoteListAdapter);
-        }
-        else{
+        } else {
             mNoteListAdapter.updateData(notes);
             mNoteListAdapter.notifyDataSetChanged();
         }
@@ -90,9 +92,8 @@ public class NoteListActivity extends AppCompatActivity {
 
     private class NoteHolder extends RecyclerView.ViewHolder
             implements
-                View.OnClickListener,
-                View.OnLongClickListener
-    {
+            View.OnClickListener,
+            View.OnLongClickListener {
         private long mId;
         private TextView tvTitle;
         private TextView tvContent;
@@ -115,13 +116,13 @@ public class NoteListActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             // opening a given note in the editor
-            NoteEditorActivity.openActivityWithNote(mSelf, mId);
+            NoteEditorActivity.openActivityWithNote(NoteListActivity.this, mId);
         }
 
         @Override
         public boolean onLongClick(View view) {
             // showing DeleteDialog
-            AlertDialog.Builder builder = new AlertDialog.Builder(mSelf);
+            AlertDialog.Builder builder = new AlertDialog.Builder(NoteListActivity.this);
             builder.setMessage("Delete the note?")
                     .setPositiveButton("Yes", dialogClickListener)
                     .setNegativeButton("No", dialogClickListener).show();
@@ -134,10 +135,10 @@ public class NoteListActivity extends AppCompatActivity {
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                switch (which){
+                switch (which) {
                     case DialogInterface.BUTTON_POSITIVE:
                         //Yes button clicked
-                        Toast.makeText(mSelf, "Deleting.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(NoteListActivity.this, "Deleting.", Toast.LENGTH_SHORT).show();
                         // DELETING the note
                         mSimpleNotesBox.remove(mId);
                         // Refreshing UI
