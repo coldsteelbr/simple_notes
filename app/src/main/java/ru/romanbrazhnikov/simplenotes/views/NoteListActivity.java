@@ -8,9 +8,13 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +47,9 @@ public class NoteListActivity extends AppCompatActivity {
     @BindView(R.id.b_new)
     FloatingActionButton bNew;
 
+    @BindView(R.id.ll_filter_sorting)
+    LinearLayout ll_filter;
+
     // FIELDS
     NoteListAdapter mNoteListAdapter;
 
@@ -52,6 +59,10 @@ public class NoteListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_note_list);
         ButterKnife.bind(this);
+
+        Toolbar myToolbar = findViewById(R.id.tb_list);
+        setSupportActionBar(myToolbar);
+
 
         rvNoteList = findViewById(R.id.rv_note_list);
         rvNoteList.setLayoutManager(
@@ -74,6 +85,25 @@ public class NoteListActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         updateUI();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.listmenu, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_filter:
+                ll_filter.setVisibility(View.VISIBLE);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void updateUI() {
