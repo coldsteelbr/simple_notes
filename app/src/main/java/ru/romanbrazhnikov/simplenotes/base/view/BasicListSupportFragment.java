@@ -11,9 +11,6 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import ru.romanbrazhnikov.simplenotes.R;
 import ru.romanbrazhnikov.simplenotes.base.view.viewholder.BaseViewHolder;
 
 /**
@@ -22,13 +19,7 @@ import ru.romanbrazhnikov.simplenotes.base.view.viewholder.BaseViewHolder;
 
 public abstract class BasicListSupportFragment<T, V extends BaseViewHolder> extends BasicSupportFragment {
     // WIDGETS
-    @BindView(R.id.rv_note_list)
-    RecyclerView rvItemList;
-
-
-    private int mRecyclerViewID;
-    private int mItemLayout;
-
+    private RecyclerView rvItemList;
     private BaseAdapter mBaseAdapter;
 
 
@@ -37,16 +28,12 @@ public abstract class BasicListSupportFragment<T, V extends BaseViewHolder> exte
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        mRecyclerViewID = getRecyclerViewID();
-        mItemLayout = getItemLayoutID();
 
-        // The last two arguments ensure LayoutParams are inflated
-        // properly.
+        // Inflating the root view
         View rootView = inflater.inflate(
                 getScreenLayout(), container, false);
 
-        ButterKnife.bind(this, rootView);
-
+        rvItemList = rootView.findViewById(getRecyclerViewID());
         rvItemList.setLayoutManager(
                 new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 
@@ -112,7 +99,7 @@ public abstract class BasicListSupportFragment<T, V extends BaseViewHolder> exte
         @Override
         public V onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater li = getLayoutInflater();
-            View view = li.inflate(mItemLayout, parent, false);
+            View view = li.inflate(getItemLayoutID(), parent, false);
             return newViewHolder(view);
         }
 

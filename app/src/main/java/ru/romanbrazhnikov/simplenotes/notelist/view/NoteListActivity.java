@@ -49,9 +49,10 @@ public class NoteListActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
 
         // init view pager adapter
+        // TODO: get ranges from filter
         mNoteListPagerAdapter =
                 new NoteListPagerAdapter(
-                        getSupportFragmentManager());
+                        getSupportFragmentManager(), NoteListFragment.RANGES.ALL_TIME);
 
         initWidgets();
     }

@@ -1,5 +1,6 @@
 package ru.romanbrazhnikov.simplenotes.notelist.view;
 
+import android.annotation.SuppressLint;
 import android.view.View;
 
 import java.util.List;
@@ -18,26 +19,53 @@ import ru.romanbrazhnikov.simplenotes.notelist.view.viewholder.SimpleNoteViewHol
  * Created by roman on 30.10.17.
  */
 
-// Instances of this class are fragments representing a single
-// object in our collection.
+@SuppressLint("ValidFragment")
 public class NoteListFragment extends BasicListSupportFragment {
     // CONSTANTS
     public static final String ARG_OBJECT = "object";
+
+    // ENUMS
+    public enum RANGES {
+        DAY,
+        WEEK,
+        MONTH,
+        YEAR,
+        ALL_TIME
+    }
+
 
     // FIELDS
     @Inject
     Box<SimpleNote> mSimpleNotesBox;
 
+    private final int mPage;
+    private final RANGES mRange;
+
+    public static NoteListFragment getInstance(int page, RANGES range) {
+        NoteListFragment fragment = new NoteListFragment(page, range);
+
+        return fragment;
+    }
+
+    private NoteListFragment(int page, RANGES range) {
+        mPage = page;
+        mRange = range;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateUI();
+    }
 
     @Override
     protected void inject() {
         getAppComponent().inject(this);
     }
 
-
     @Override
     protected void updateUI() {
-
+        // TODO: Use RANGE & PAGE here
         // getting items and refreshing list
         Query<SimpleNote> queryAll
                 = mSimpleNotesBox.query()
@@ -47,7 +75,6 @@ public class NoteListFragment extends BasicListSupportFragment {
 
         refreshList(filteredRecords);
     }
-
 
     @Override
     protected int getRecyclerViewID() {
@@ -68,12 +95,5 @@ public class NoteListFragment extends BasicListSupportFragment {
     protected int getScreenLayout() {
         return R.layout.fra_note_list;
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        updateUI();
-    }
-
 
 }
