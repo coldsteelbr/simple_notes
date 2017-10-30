@@ -2,6 +2,8 @@ package ru.romanbrazhnikov.simplenotes.dagger;
 
 import android.app.Application;
 
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
 import io.objectbox.Box;
@@ -20,12 +22,14 @@ public class ObjectBoxModule {
         mBoxStore = MyObjectBox.builder().androidContext(myApp).build();
     }
 
+    @Singleton
     @Provides
     BoxStore providesBoxStore() {
         return mBoxStore;
     }
 
     @Provides
+    @Singleton
     Box<SimpleNote> provideBoxForSimpleNote() {
         return mBoxStore.boxFor(SimpleNote.class);
     }
