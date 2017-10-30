@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,21 +22,20 @@ import ru.romanbrazhnikov.simplenotes.R;
 public class NoteListActivity extends AppCompatActivity {
 
     // WIDGETS
-    RecyclerView rvNoteList;
-
     @BindView(R.id.b_new)
     FloatingActionButton bNew;
 
     @BindView(R.id.ll_filter_sorting)
     LinearLayout ll_filter;
 
-
-    // VIEW PAGER
-    // When requested, this adapter returns a NoteListFragment,
-    // representing an object in the collection.
-    NoteListPagerAdapter mNoteListPagerAdapter;
     @BindView(R.id.pager)
     ViewPager mViewPager;
+
+    @BindView(R.id.tb_list)
+    Toolbar mToolbar;
+
+    // FIELDS
+    NoteListPagerAdapter mNoteListPagerAdapter;
 
 
     @Override
@@ -47,24 +45,14 @@ public class NoteListActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        Toolbar myToolbar = findViewById(R.id.tb_list);
-        setSupportActionBar(myToolbar);
+        setSupportActionBar(mToolbar);
 
-        /*
-        rvNoteList = findViewById(R.id.rv_note_list);
-        rvNoteList.setLayoutManager(
-                new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        */
-
-
-        initWidgets();
-
-        // ViewPager and its adapters use support library
-        // fragments, so use getSupportFragmentManager.
+        // init view pager adapter
         mNoteListPagerAdapter =
                 new NoteListPagerAdapter(
                         getSupportFragmentManager());
-        mViewPager.setAdapter(mNoteListPagerAdapter);
+
+        initWidgets();
     }
 
     private void initWidgets() {
@@ -74,6 +62,8 @@ public class NoteListActivity extends AppCompatActivity {
                 NoteEditorActivity.openActivity(NoteListActivity.this);
             }
         });
+
+        mViewPager.setAdapter(mNoteListPagerAdapter);
     }
 
 
