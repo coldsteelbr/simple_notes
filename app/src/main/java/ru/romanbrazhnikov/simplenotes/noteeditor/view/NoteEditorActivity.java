@@ -88,7 +88,7 @@ public class NoteEditorActivity extends AppCompatActivity {
         setWidgets();
 
         // Injection and ObjectBox
-        ((MyApp) getApplication()).getSimpleNotesComponent().inject(this);
+        ((MyApp) getApplication()).getAppComponent().inject(this);
         mSimpleNotesBox = mBoxStore.boxFor(SimpleNote.class);
 
         // SimpleNote Init

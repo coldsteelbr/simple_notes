@@ -12,7 +12,7 @@ import ru.romanbrazhnikov.simplenotes.notelist.view.NoteListFragment;
 
 @Singleton
 @Component(modules = {AppModule.class, ObjectBoxModule.class})
-public interface SimpleNotesComponent {
+public interface AppComponent {
     void inject(NoteEditorActivity activity);
 
     void inject(NoteListFragment fragment);

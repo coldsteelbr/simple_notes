@@ -4,8 +4,10 @@ import android.app.Application;
 
 import dagger.Module;
 import dagger.Provides;
+import io.objectbox.Box;
 import io.objectbox.BoxStore;
 import ru.romanbrazhnikov.simplenotes.entities.MyObjectBox;
+import ru.romanbrazhnikov.simplenotes.entities.SimpleNote;
 
 /**
  * Created by roman on 12.09.17.
@@ -19,7 +21,12 @@ public class ObjectBoxModule {
     }
 
     @Provides
-    BoxStore providesBoxStore(){
+    BoxStore providesBoxStore() {
         return mBoxStore;
+    }
+
+    @Provides
+    Box<SimpleNote> provideBoxForSimpleNote() {
+        return mBoxStore.boxFor(SimpleNote.class);
     }
 }
