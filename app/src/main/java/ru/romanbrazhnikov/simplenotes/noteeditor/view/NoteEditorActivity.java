@@ -1,4 +1,4 @@
-package ru.romanbrazhnikov.simplenotes.views;
+package ru.romanbrazhnikov.simplenotes.noteeditor.view;
 
 import android.content.Context;
 import android.content.Intent;

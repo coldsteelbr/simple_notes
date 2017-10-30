@@ -1,4 +1,4 @@
-package ru.romanbrazhnikov.simplenotes.views;
+package ru.romanbrazhnikov.simplenotes.notelist.view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.romanbrazhnikov.simplenotes.R;
+import ru.romanbrazhnikov.simplenotes.noteeditor.view.NoteEditorActivity;
 
 /**
  * Created by roman on 13.09.17.

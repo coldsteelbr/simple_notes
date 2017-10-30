@@ -3,8 +3,8 @@ package ru.romanbrazhnikov.simplenotes.dagger;
 import javax.inject.Singleton;
 
 import dagger.Component;
-import ru.romanbrazhnikov.simplenotes.views.NoteEditorActivity;
-import ru.romanbrazhnikov.simplenotes.views.NoteListFragment;
+import ru.romanbrazhnikov.simplenotes.noteeditor.view.NoteEditorActivity;
+import ru.romanbrazhnikov.simplenotes.notelist.view.NoteListFragment;
 
 /**
  * Created by roman on 12.09.17.

@@ -1,4 +1,4 @@
-package ru.romanbrazhnikov.simplenotes.views;
+package ru.romanbrazhnikov.simplenotes.notelist.view;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -23,6 +23,7 @@ import ru.romanbrazhnikov.simplenotes.R;
 import ru.romanbrazhnikov.simplenotes.application.MyApp;
 import ru.romanbrazhnikov.simplenotes.entities.SimpleNote;
 import ru.romanbrazhnikov.simplenotes.entities.SimpleNote_;
+import ru.romanbrazhnikov.simplenotes.noteeditor.view.NoteEditorActivity;
 
 /**
  * Created by roman on 30.10.17.

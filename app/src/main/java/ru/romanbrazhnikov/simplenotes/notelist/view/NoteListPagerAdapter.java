@@ -1,4 +1,4 @@
-package ru.romanbrazhnikov.simplenotes.views;
+package ru.romanbrazhnikov.simplenotes.notelist.view;
 
 
 import android.os.Bundle;
